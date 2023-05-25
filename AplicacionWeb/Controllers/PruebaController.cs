@@ -17,5 +17,9 @@ namespace AplicacionWeb.Controllers
         {
             return View();
         }
+        public ActionResult prueba2()
+        {
+            return View();
+        }
     }
 }
