@@ -23,6 +23,7 @@ namespace capaEntidad
     public class empleadoWendy
     {
         public int idEmpleadoWendy { get; set; }
+        public string identificadorPersonal { get; set; }
         public string nombreEmpleado { get; set; }
         public int edadEmpleado { get; set; }
         public string cargoEmpleado { get; set; }

@@ -65,18 +65,18 @@ namespace capaDatos
                     cmd.Parameters.AddWithValue("correo", obj.correo);
                     cmd.Parameters.AddWithValue("clave", obj.clave);
                     cmd.Parameters.AddWithValue("activo", obj.activo);
-                    cmd.Parameters.Add("resultado",SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("mensaje", SqlDbType.VarChar,500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     oconexion.Open();
-                    cmd.ExecuteNonQuery();  
+                    cmd.ExecuteNonQuery();
 
                     idautogenerado = Convert.ToInt32(cmd.Parameters["resultado"].Value);
                     Mensaje = cmd.Parameters["mensaje"].Value.ToString();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 idautogenerado = 0;
                 Mensaje = ex.Message;
@@ -110,7 +110,7 @@ namespace capaDatos
                     Mensaje = cmd.Parameters["mensaje"].Value.ToString();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resultado = false;
                 Mensaje = ex.Message;
@@ -118,6 +118,7 @@ namespace capaDatos
             return resultado;
         }
 
+        //método de eliminar user
         public bool Eliminar(int id, out string Mensaje)
         {
             bool resultado = false;
@@ -126,14 +127,14 @@ namespace capaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
                 {
-                    SqlCommand cmd = new SqlCommand("delete top (1) from Usuario where idUsuario = @id",oconexion);
+                    SqlCommand cmd = new SqlCommand("delete top (1) from Usuario where idUsuario = @id", oconexion);
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.CommandType = CommandType.Text;
                     oconexion.Open();
                     resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resultado = false;
                 Mensaje = ex.Message;
@@ -141,5 +142,55 @@ namespace capaDatos
             return resultado;
         }
 
+        //Cambiar contraseña
+        public bool CambiarClave(int idUsuario, string nuevaClave, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                {
+                    SqlCommand cmd = new SqlCommand("update Usuario set clave = @nuevaClave, restablecerUsuario = 0 where idUsuario = @id", oconexion);
+                    cmd.Parameters.AddWithValue("@id", idUsuario);
+                    cmd.Parameters.AddWithValue("@nuevaClave", nuevaClave);
+                    cmd.CommandType = CommandType.Text;
+                    oconexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+        //fin del método
+
+        //método restablecer clave
+        public bool ReestablecerC(int idUsuario, string clave, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                {
+                    SqlCommand cmd = new SqlCommand("update Usuario set clave = @clave, restablecerUsuario = 1 where idUsuario = @id", oconexion);
+                    cmd.Parameters.AddWithValue("@id", idUsuario);
+                    cmd.Parameters.AddWithValue("@Clave", clave);
+                    cmd.CommandType = CommandType.Text;
+                    oconexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
     }
 }

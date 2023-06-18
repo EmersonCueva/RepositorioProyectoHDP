@@ -6,20 +6,25 @@ using System.Threading.Tasks;
 
 namespace capaEntidad
 {
-//    CREATE TABLE direccionEmpleado(
-//    idDireccion INT PRIMARY KEY,
-//    sucursalEmpleado VARCHAR(100),
-//    paisEmpleado VARCHAR(100),
-//    estado VARCHAR(100),
-//    nombreCalle VARCHAR(100),
-//    coloniaEmpleado VARCHAR(100),
-//    codigoPostal INT,
-//    activoDireccion BIT DEFAULT 1
-//);
+    /*
+    CREATE TABLE direccionEmpleado (
+        idDireccion INT PRIMARY KEY IDENTITY,
+        codDireccion VARCHAR(10),
+        sucursalEmpleado VARCHAR(100),
+        paisEmpleado VARCHAR(100),
+        estado VARCHAR(100),
+        nombreCalle VARCHAR(100),
+        coloniaEmpleado VARCHAR(100),
+        codigoPostal INT,
+        activoDireccion BIT DEFAULT 1
+    );
+    */
+
 
     public class direccionEmpleado
     {
         public int idDireccion { get; set; }
+        public string codDireccion { get; set; }
         public string sucursalEmpleado { get; set; }
         public string paisEmpleado { get; set; }
         public string estado { get; set; }
